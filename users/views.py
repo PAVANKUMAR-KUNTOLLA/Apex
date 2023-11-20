@@ -95,7 +95,8 @@ def login(request):
     user = login_serializer.validated_data['user']
     token, created = Token.objects.get_or_create(user=user)
     data = {
-        'token': token.key
+        'token': token.key,
+        'role':user.role
     }
     context = data
     status_flag = True
