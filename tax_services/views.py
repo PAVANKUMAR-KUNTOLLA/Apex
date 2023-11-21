@@ -95,7 +95,7 @@ def tax_filing(request):
 
             tax_filing_ins = TaxFiling.objects.get(id=data["id"])
 
-            if not request.user.id ==  tax_filing_ins.user.id:
+            if not (request.user.id ==  tax_filing_ins.user.id or request.user.is_admin):
                 context = {"data":None, "status_flag":False, "status":status.HTTP_401_UNAUTHORIZED, "message":"UnAuthorized"}
                 return Response(status=status.HTTP_401_UNAUTHORIZED, data=context)
             
@@ -1089,7 +1089,6 @@ def create_message(request):
     data = request.data.copy()
     try:
         if request.method == "POST":
-
             if not request.user.is_admin:
                 context = {"data":None, "status_flag":False, "status":status.HTTP_401_UNAUTHORIZED, "message":"UnAuthorized"}
                 return Response(status=status.HTTP_401_UNAUTHORIZED, data=context)
